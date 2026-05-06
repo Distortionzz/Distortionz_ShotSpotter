@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Distortionz Shot Spotter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Stack of dispatch cards. Multiple incidents render side-by-side. -->
+    <div id="dispatchStack" class="dispatch-stack"></div>
+
+    <!--
+        Card template (cloned + mutated by app.js for each incident).
+        Kept hidden in the DOM for cleaner cloning.
+    -->
+    <template id="dispatchCardTemplate">
+        <div class="dispatch-card" data-incident-id="">
+            <div class="card-header">
+                <span class="dispatch-tag">
+                    <i class="dot"></i>
+                    <span>SHOTS FIRED</span>
+                </span>
+                <span class="card-timer">0:30</span>
+            </div>
+
+            <div class="card-progress">
+                <div class="card-progress-fill"></div>
+            </div>
+
+            <div class="card-body">
+                <div class="info-row">
+                    <span class="row-label">Location</span>
+                    <span class="row-value street">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="row-label">Zone</span>
+                    <span class="row-value zone">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="row-label">Distance</span>
+                    <span class="row-value distance">—</span>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <span class="weapon-pill">FIREARM</span>
+                <span class="shot-counter">
+                    <span class="counter-label">SHOTS</span>
+                    <strong class="counter-value">1</strong>
+                </span>
+            </div>
+        </div>
+    </template>
+
+    <script src="app.js"></script>
+</body>
+</html>

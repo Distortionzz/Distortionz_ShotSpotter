@@ -1,0 +1,6 @@
+{
+    "version": "1.1.7",
+    "name": "distortionz_shotspotter",
+    "download": "https://github.com/Distortionzz/Distortionz_ShotSpotter",
+    "changelog": "v1.1.7 — Dispatch card moved to right side, vertically centered. v1.1.6 put it on the left, but sir wanted it back on the right just not colliding with the chat notify. Solution: same right edge (right:24px) but vertically centered with top:50% + transform:translateY(-50%) so the card sits at mid-screen. Chat notify stays at top-right corner; this card sits at mid-right. Different vertical zones, zero overlap regardless of how tall the notify gets. Slide-in animation reverted to horizontal-only entry from the right. v1.1.6 — (broken) left-side position."
+}

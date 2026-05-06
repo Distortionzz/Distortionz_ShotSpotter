@@ -1,0 +1,216 @@
+/* ──────────────────────────────────────────────────────────────────
+   Distortionz Shot Spotter — Dispatch HUD
+   Matches the hijack/admin aesthetic: matte black, sharp accents,
+   #c8c828 brand yellow on accents, dispatch red for the alert tag.
+   No backdrop-filter (CEF renders as black box).
+   ────────────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+html, body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    color: #fff;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* ─── Stack container ────────────────────────────────────────────── */
+.dispatch-stack {
+    position: fixed;
+    /* v1.1.7 — Right side, vertically centered. Chat notify lives at
+       top-right corner; this card sits at mid-screen so they have
+       totally separate vertical zones. transform: translateY(-50%)
+       centers it relative to its own height regardless of stack count. */
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 320px;
+    z-index: 9999;
+}
+
+/* ─── Card ───────────────────────────────────────────────────────── */
+.dispatch-card {
+    background: rgba(14, 14, 14, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    animation: cardSlideIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+    position: relative;
+}
+
+.dispatch-card.fading {
+    animation: cardSlideOut 0.4s ease forwards;
+}
+
+@keyframes cardSlideIn {
+    from { transform: translateX(120%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes cardSlideOut {
+    from { transform: translateX(0);    opacity: 1; }
+    to   { transform: translateX(120%); opacity: 0; }
+}
+
+/* ─── Header ─────────────────────────────────────────────────────── */
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 14px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dispatch-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #ff4a4a;
+    font-size: 10.5px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+}
+.dispatch-tag .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff4a4a;
+    box-shadow: 0 0 6px rgba(255, 74, 74, 0.7);
+    animation: dotPulse 1.2s ease-in-out infinite;
+}
+@keyframes dotPulse {
+    0%, 100% { opacity: 1;   transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(1.35); }
+}
+
+.card-timer {
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 13px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: -0.02em;
+}
+.card-timer.warn     { color: #ffc14a; }
+.card-timer.critical { color: #ff4a4a; }
+
+/* ─── Progress bar (visualizes time-left) ────────────────────────── */
+.card-progress {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.06);
+    width: 100%;
+}
+.card-progress-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #ff4a4a, #ff7a6c);
+    transition: width 1s linear, background 0.3s ease;
+}
+.card-progress-fill.warn { background: linear-gradient(90deg, #ffc14a, #ffd76c); }
+
+/* ─── Body ───────────────────────────────────────────────────────── */
+.card-body {
+    padding: 11px 14px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.row-label {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.row-value {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 12.5px;
+    font-weight: 700;
+    text-align: right;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.row-value.distance {
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
+    color: #c8c828;
+    letter-spacing: -0.01em;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────── */
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.weapon-pill {
+    padding: 5px 11px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    background: rgba(180, 180, 180, 0.12);
+    color: #d0d0d0;
+    border: 1px solid rgba(180, 180, 180, 0.22);
+    text-transform: uppercase;
+}
+
+/* Weapon class color coding */
+.weapon-pill.pistol  { background: rgba(80, 160, 255, 0.16);  color: #5fa9ff; border-color: rgba(80, 160, 255, 0.32); }
+.weapon-pill.smg     { background: rgba(178, 102, 255, 0.18); color: #c590ff; border-color: rgba(178, 102, 255, 0.36); }
+.weapon-pill.rifle   { background: rgba(255, 100, 50, 0.20);  color: #ff8a5c; border-color: rgba(255, 100, 50, 0.40); }
+.weapon-pill.shotgun { background: rgba(255, 196, 0, 0.18);   color: #ffd76c; border-color: rgba(255, 196, 0, 0.38); }
+.weapon-pill.sniper  { background: rgba(40, 255, 131, 0.16);  color: #6cff9c; border-color: rgba(40, 255, 131, 0.34); }
+.weapon-pill.heavy {
+    background: linear-gradient(135deg, rgba(255, 74, 74, 0.24), rgba(255, 100, 0, 0.20));
+    color: #ff7a6c;
+    border-color: rgba(255, 74, 74, 0.45);
+}
+
+.shot-counter {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+}
+.counter-label {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+.counter-value {
+    font-size: 18px;
+    font-weight: 900;
+    color: #ff4a4a;
+    letter-spacing: -0.02em;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.counter-value.bumped {
+    animation: counterBump 0.4s ease;
+}
+@keyframes counterBump {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.3); color: #ffc14a; }
+    100% { transform: scale(1); }
+}
