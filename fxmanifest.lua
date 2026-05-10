@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'Distortionz'
 description 'Distortionz Shot Spotter — premium gunshot detection + dispatch HUD for police, with smart clustering, fuzzed locations, weapon classification, and optional Discord audit logging.'
-version '1.1.7'
+version '1.1.8'
 repository 'https://github.com/Distortionzz/Distortionz_ShotSpotter'
 
 ui_page 'html/index.html'

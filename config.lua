@@ -3,14 +3,14 @@ Config = Config or {}
 -- ─── Script meta ────────────────────────────────────────────────────
 Config.Script = {
     name    = 'Distortionz Shot Spotter',
-    version = '1.1.7',
+    version = '1.1.8',
 }
 
 Config.VersionCheck = {
     enabled = true,
     url     = 'https://raw.githubusercontent.com/Distortionzz/Distortionz_ShotSpotter/main/version.json',
 }
-Config.CurrentVersion = '1.1.7'
+Config.CurrentVersion = '1.1.8'
 
 -- ─── Detection ──────────────────────────────────────────────────────
 -- Polls IsPedShooting on the local player at this interval. 250ms is
